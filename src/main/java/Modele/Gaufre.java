@@ -9,9 +9,9 @@ public class Gaufre {
 	public int largeur;
 	public int hauteur;
 	public static Position poison;
-	final int POISON=2;
-	final int VIDE=1;
-	final int CROQUE=0;
+	public final int POISON=2;
+	public final int VIDE=1;
+	public final int CROQUE=0;
 	int nbCasesCroquees;
 	public LinkedList<Coup> historique = new LinkedList<Coup>();
 	
@@ -28,14 +28,14 @@ public class Gaufre {
 		changePoison(0,0);
 	}
 	
-	public boolean verif(int i, int j) {//v�rifie si une case d'indice i, j est bien situ�e dans le tableau et pas hors du tableau.
+	public boolean verif(int i, int j) {//vérifie si une case d'indice i, j est bien située dans le tableau et pas hors du tableau.
 		if(i<=hauteur && j<=largeur && i>=0 && j>=0){
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean verifNonCroque(int i, int j) {//renvoie true si la case d'indice i,j n'a pas �t� croqu�e.
+	public boolean verifNonCroque(int i, int j) {//renvoie true si la case d'indice i,j n'a pas été croquée.
 		if(tableau[i][j]==CROQUE){
 			return false;
 		}
@@ -44,7 +44,7 @@ public class Gaufre {
 	
 	public void changePoison(int i, int j) {
 		if(i>hauteur || j>largeur) {
-			System.err.println("Erreur : la nouvelle position de la cases empoisonn�e n'est pas valide.");
+			System.err.println("Erreur : la nouvelle position de la cases empoisonnï¿½e n'est pas valide.");
 		}
 		tableau[poison.x][poison.y]=VIDE;
 		poison.x=i;
@@ -52,7 +52,7 @@ public class Gaufre {
 		tableau[poison.x][poison.y]=POISON;
 	}
 	
-	public boolean estMangePoison() {//renvoie true si le poison a �t� mang�.
+	public boolean estMangePoison() {//renvoie true si le poison a été mangé.
 		int i=poison.x;
 		int j=poison.y;
 		if(tableau[i][j]==CROQUE) {
@@ -72,8 +72,8 @@ public class Gaufre {
 	}
 	
 	public void redimensionne(int i, int j) {
-		// ATTENTION : on ne PEUT PAS agrandir le tableau en lignes mais le r�tr�cir en colonnes, ou l'inverse.
-		// On doit OBLIGATOIREMENT [agrandir une ligne et/ou une colonne] ou bien [r�tr�cir une ligne et/ou une colonne]
+		// ATTENTION : on ne PEUT PAS agrandir le tableau en lignes mais le rï¿½trï¿½cir en colonnes, ou l'inverse.
+		// On doit OBLIGATOIREMENT [agrandir une ligne et/ou une colonne] ou bien [rï¿½trï¿½cir une ligne et/ou une colonne]
 		int oldHauteur=hauteur;
 		int oldLargeur=largeur;
 		if(changeDimensions(i,j)==0) {
@@ -91,14 +91,14 @@ public class Gaufre {
 		int [][] tab = new int[newL][newH];
 		for(int i=0 ; i<newL ; i++) {//largeur
 			for(int j=0 ; j<newH ; j++) {//hauteur
-				if(i>oldLargeur-1 || j > oldHauteur-1) {//si on ne peut pas boucler dans l'ancien tableau, alors on cr�er des nouvelles cellules ayant pour valeur 1
+				if(i>oldLargeur-1 || j > oldHauteur-1) {//si on ne peut pas boucler dans l'ancien tableau, alors on créer des nouvelles cellules ayant pour valeur 1
 					tab[i][j]=VIDE;
 				}else {//sinon, on copie les valeurs de l'ancien tableau dans le nouveau tableau
 					tab[i][j]=tableau[i][j];
 				}
 			}
 		}
-		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi cr�er enn faisant une copie du tableau
+		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi créer enn faisant une copie du tableau
 	}
 	
 	public void retrecir(int newL, int newH) {
@@ -108,23 +108,48 @@ public class Gaufre {
 				tab[l][h]=tableau[l][h];
 			}
 		}
-		if(poison.x>newL || poison.y>newH) {//le poison est r�initialis� par d�faut � la case (0,0) si la nouvelle dimension supprime la cellule empoisonn�e.
+		if(poison.x>newL || poison.y>newH) {//le poison est réinitialisé par défaut à la case (0,0) si la nouvelle dimension supprime la cellule empoisonnée.
 			changePoison(0,0);
-			System.out.println("Le poison est maintenant en (0,0) car le r�tr�cissement de la gaufre a supprim� l'ancienne position du poison.");
+			System.out.println("Le poison est maintenant en (0,0) car le rétrécissement de la gaufre a supprimé l'ancienne position du poison.");
 		}
-		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi cr�er en faisant une copie du tableau
+		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi créer en faisant une copie du tableau
 	}
 	
-	public void croquer(int i, int j) {// � partir d'une case, d�finit la valeur de toutes les cases � droite et en bas de cette case � CROQUE.
+	public void croquer(int i, int j , int joueur) {// à partir d'une case, définit la valeur de toutes les cases à droite et en bas de cette case à CROQUE.
 		if(verif(i,j) && verifNonCroque(i,j)) {
+                    this.ajouterCoupHistorique(i, j, joueur);
+                    System.out.println("Case croquée !");
 			for(int l=i ; l<largeur ; l++) {//largeur
 				for(int h=j ; h<hauteur ; h++) {//hauteur
 					if(tableau[l][h]!=CROQUE) {
+                                            
 						nbCasesCroquees++;
 						tableau[l][h]=CROQUE;
+                                                
 					}
 					if(poison.x==l && poison.y==h) {
-						System.out.println("Le poison a �t� mang� !");
+						System.out.println("Le poison a été mangé !");
+					}
+				}
+			}
+		}else {
+			System.out.println("Impossible de croquer dans cette case.");
+		}
+	}
+        
+        public void croquer(int i, int j) {// à partir d'une case, définit la valeur de toutes les cases à droite et en bas de cette case à CROQUE.
+		if(verif(i,j) && verifNonCroque(i,j)) {
+                    System.out.println("Case croquée !");
+			for(int l=i ; l<largeur ; l++) {//largeur
+				for(int h=j ; h<hauteur ; h++) {//hauteur
+					if(tableau[l][h]!=CROQUE) {
+                                            
+						nbCasesCroquees++;
+						tableau[l][h]=CROQUE;
+                                                
+					}
+					if(poison.x==l && poison.y==h) {
+						System.out.println("Le poison a été mangé !");
 					}
 				}
 			}
@@ -133,15 +158,35 @@ public class Gaufre {
 		}
 	}
 	
-	public void remplir(int i, int j) {// � partir d'une case, remplit toutes les cases � droite et en bas de cette case � VIDE.
+	public void remplir(int i, int j) {// à partir d'une case, remplit toutes les cases à droite et en bas de cette case à VIDE.
+            if(historique.isEmpty() == false) {
+                
+               Coup c = historique.get(historique.size() -1);
+               System.out.println(c.x+" "+c.y+" "+i+" "+j);
 		for(int l=i ; l<largeur ; l++) {//largeur
 			for(int h=j ; h<hauteur ; h++) {//hauteur
-				if(tableau[l][h]!=VIDE) {
+                            if(l < c.x || h < c.y) {
+				if(tableau[l][h]!=VIDE   ) {
 					nbCasesCroquees--;
 					tableau[l][h]=VIDE;
 				}
+                            }
+			}
+		} 
+            }
+            else {
+                for(int l=i ; l<largeur ; l++) {//largeur
+			for(int h=j ; h<hauteur ; h++) {//hauteur
+                           
+				if(tableau[l][h]!=VIDE   ) {
+					nbCasesCroquees--;
+					tableau[l][h]=VIDE;
+				}
+                            
 			}
 		}
+            }
+            
 	}
 
 	public void afficherHistorique() {//affiche l'historique
@@ -155,20 +200,28 @@ public class Gaufre {
     }
 	    
 	public void retirerCoupHistorique() {
-        historique.removeLast(); //supprime le dernier coup dans l'historique
+            if(historique.isEmpty() == false) {
+                Coup lastcoup = historique.removeLast(); //supprime le dernier coup dans l'historique
+                this.remplir(lastcoup.x,lastcoup.y);
+            }
+            else {
+               System.out.println( "La lise est déja vide !");
+
+            }
     }
 	
-	public void reinitialiser() {//r�initialise les valeurs des cases de la gaufre.
+	public void reinitialiser() {//réinitialise les valeurs des cases de la gaufre.
 		nbCasesCroquees=0;
 		for(int l=0 ; l<largeur ; l++) {//largeur
 			for(int h=0 ; h<hauteur ; h++) {//hauteur
 				tableau[l][h]=VIDE;
 			}
 		}
+                historique.clear();
 		changePoison(0,0);
 	}
 	
-	public float progression() {//renvoie la progression dee la partie en %. Si toutes les cases ont �t� croqu�es, renvoie 100.0%, en d�but de partie, renvoie 0.0%.
+	public float progression() {//renvoie la progression dee la partie en %. Si toutes les cases ont ï¿½tï¿½ croquï¿½es, renvoie 100.0%, en dï¿½but de partie, renvoie 0.0%.
 		float p=0;
 		int nbCases=hauteur*largeur;
 		p=nbCasesCroquees/(float)nbCases*100;
@@ -185,5 +238,8 @@ public class Gaufre {
 			System.out.println();
 		}
 	}
+        
+        
+    
 	
 }

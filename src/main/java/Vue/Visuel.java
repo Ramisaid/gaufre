@@ -7,6 +7,8 @@ import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
+import java.util.LinkedList;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -91,7 +93,7 @@ public class Visuel extends javax.swing.JFrame {
         label1.setForeground(new java.awt.Color(33, 122, 222));
         label1.setText("Progression");
 
-        jButton1.setText("Annuler tout les Coups");
+        jButton1.setText("Annuler tous les Coups");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -158,6 +160,11 @@ public class Visuel extends javax.swing.JFrame {
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, 0));
         jMenuItem2.setText("Sauvegarder");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, 0));
@@ -244,11 +251,23 @@ public class Visuel extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.gaufre.reinitialiser();
+        repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        this.gaufre.retirerCoupHistorique();
+        this.repaint();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        sauvegarde savemenu = new sauvegarde();
+        savemenu.setgaufre(this.gaufre);
+        savemenu.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -299,7 +318,9 @@ public class Visuel extends javax.swing.JFrame {
        topaint = true;
        try {
         this.jProgressBar1.setValue((int) gaufre.progression());
-           this.jProgressBar1.setString(String.valueOf(gaufre.progression())+'%');
+            String r = String.format("%.1f", gaufre.progression());
+              
+           this.jProgressBar1.setString(r+'%');
        super.paint(g);
        super.paintComponents(g);
        
@@ -311,11 +332,9 @@ public class Visuel extends javax.swing.JFrame {
    
                   File file = new File("C:\\Users\\farid\\Documents\\NetBeansProjects\\Gauffre\\1.png");
                    File file2 = new File("C:\\Users\\farid\\Documents\\NetBeansProjects\\Gauffre\\2.png");
-                     File file3 = new File("C:\\Users\\farid\\Documents\\NetBeansProjects\\Gauffre\\3.png");
 
             BufferedImage image = ImageIO.read(file);
             BufferedImage image2 = ImageIO.read(file2);
-            BufferedImage image3 = ImageIO.read(file3);
        
   
         int uniteX = jPanel1.getWidth()/COLONNE_GRILLE;
@@ -330,10 +349,7 @@ public class Visuel extends javax.swing.JFrame {
                     else if (gaufre.tableau[i][j] == gaufre.VIDE )   {
                                g.drawImage(image,test.x+(i*uniteX), test.y+(j*uniteY), uniteX, uniteY,null);
                     }
-                    else if (gaufre.tableau[i][j] == gaufre.CROQUE )   {
-                         g.drawImage(image3,test.x+(i*uniteX), test.y+(j*uniteY), uniteX, uniteY,null);
-                    }
-               
+              
 
                 
                 
@@ -374,6 +390,7 @@ public class Visuel extends javax.swing.JFrame {
     public int LIGNE_GRILLE = 0;
     public boolean topaint = false;
     public Gaufre gaufre ;
+    public int jcourant = 0;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

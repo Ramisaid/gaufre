@@ -10,8 +10,7 @@ import java.util.ArrayList;
 
 import Modele.Gaufre;
 import Modele.Joueur;
-import Modele.Statistiques;
-import Modele.Coup;
+
 
 
 public class Fichiers {
@@ -40,7 +39,7 @@ public class Fichiers {
 	public void ecrireSauvegarde(Gaufre g, Joueur j1, Joueur j2, int j_courant) {
 		if(typeFichier==0) {
 			try {
-				FileWriter writer=new FileWriter(f,false);//écrire en mode remplacement
+				FileWriter writer=new FileWriter(f,false);//Ã©crire en mode remplacement
 				BufferedWriter bw=new BufferedWriter(writer);
 				bw.write("numJ1:"+j1.numeroJoueur);
 				bw.newLine();
@@ -74,7 +73,7 @@ public class Fichiers {
 	public void ecrireSauvegarde(Sauvegarde s) {
 		if(typeFichier==0) {
 			try {
-				FileWriter writer=new FileWriter(f,false);//écrire en mode remplacement
+				FileWriter writer=new FileWriter(f,false);//Ã©crire en mode remplacement
 				BufferedWriter bw=new BufferedWriter(writer);
 				bw.write("numJ1:"+s.j1.numeroJoueur);
 				bw.newLine();
@@ -116,7 +115,7 @@ public class Fichiers {
 					tab.add(ligne_lue);
 			    }
 				if(tab.size()!=7) {//NB DE LIGNES DU FICHIER DE SAUVEGARDE = 7
-					System.err.println("Erreur : le fichier de sauvegarde est corrompu.");
+					System.err.println("Erreur : le fichier de sauvegarde est corrompu."+tab.size());
 					return null;
 				}
 				String[] ligne = tab.get(0).split(":");
@@ -130,7 +129,7 @@ public class Fichiers {
 				ligne = tab.get(4).split(":");
 				int hauteur = Integer.parseInt(ligne[1]);
 				ligne = tab.get(5).split(":");
-				ligne = ligne[1].split(",");//x d'un côté et y de l'autre
+				ligne = ligne[1].split(",");//x d'un cÃ´tÃ© et y de l'autre
 				int poisonX=Integer.parseInt(ligne[0]);
 				int poisonY=Integer.parseInt(ligne[1]);
 				ligne = tab.get(6).split(":");//liste des coups
@@ -138,7 +137,7 @@ public class Fichiers {
 				String[] decoupe;
 				int h,l, numJ;
 				for(int k=1; k < ligne.length; k++) {
-					decoupe = ligne[k].split(",");//x d'un côté et y de l'autre
+					decoupe = ligne[k].split(",");//x d'un cÃ´tÃ© et y de l'autre
 					h = Integer.parseInt(decoupe[0]); 
 					l = Integer.parseInt(decoupe[1]);
 					g.croquer(h, l);
@@ -166,7 +165,7 @@ public class Fichiers {
 	public void ecrireStats(Joueur j, int nbP, int nbV) {
 		if(typeFichier==1) {
 			try {
-				FileWriter writer=new FileWriter(f,false);//écrire en mode remplacement
+				FileWriter writer=new FileWriter(f,false);//Ã©crire en mode remplacement
 				BufferedWriter bw=new BufferedWriter(writer);
 				bw.write("numJ:"+String.valueOf(j.numeroJoueur));
 				bw.newLine();
@@ -182,7 +181,7 @@ public class Fichiers {
 				e.printStackTrace();
 			}
 		}else {
-			System.err.println("Erreur : le fichier à écrire n'est pas un fichier de statistiques.");
+			System.err.println("Erreur : le fichier Ã  Ã©crire n'est pas un fichier de statistiques.");
 		}
 	}
 	
@@ -223,7 +222,7 @@ public class Fichiers {
 	
 	public static void ecrireRemplace(File fichier, String texte) {
 		try {
-			FileWriter writer=new FileWriter(fichier,false);//écrire en mode remplacement
+			FileWriter writer=new FileWriter(fichier,false);//Ã©crire en mode remplacement
 			BufferedWriter bw=new BufferedWriter(writer);
 			bw.write(texte);
 			bw.close();
@@ -235,7 +234,7 @@ public class Fichiers {
 	
 	public static void ecrireAjout(File fichier, String texte) {
 		try {
-			FileWriter writer=new FileWriter(fichier,true);//écrire en mode ajout
+			FileWriter writer=new FileWriter(fichier,true);//Ã©crire en mode ajout
 			BufferedWriter bw=new BufferedWriter(writer);
 			bw.write(texte);
 			bw.newLine();// saut de ligne
