@@ -4,7 +4,7 @@ import java.io.File;
 
 public class OptionFichier {
 	
-	public static File dossierSauvegarde = new File("./Sauvegarde");
+	public static File dossierSauvegarde = new File("./Sauvegarde");//
 	public static File dossierStat = new File("./Statistiques");
 	
 	static public void initialisation() {
