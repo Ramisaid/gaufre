@@ -3,7 +3,7 @@ import Modele.Gaufre;
 import Modele.Joueur;
 
 public class Sauvegarde {
-	Gaufre g;
+	public Gaufre g;
 	Joueur j1;
 	Joueur j2;
 	int j_courant;//joueur qui doit jouer
@@ -14,5 +14,6 @@ public class Sauvegarde {
 		this.j2=j2;
 		this.j_courant=j_courant;
 	}
+	
 	
 }
