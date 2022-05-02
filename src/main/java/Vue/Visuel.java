@@ -330,8 +330,8 @@ public class Visuel extends javax.swing.JFrame {
        
        Point test = jPanel1.getLocationOnScreen();
    
-                  File file = new File("C:\\Users\\farid\\Documents\\NetBeansProjects\\Gauffre\\1.png");
-                   File file2 = new File("C:\\Users\\farid\\Documents\\NetBeansProjects\\Gauffre\\2.png");
+                  File file = new File("..\\carre_empoisonne_gaufre.png");
+                   File file2 = new File("..\\carre_gaufre.png");
 
             BufferedImage image = ImageIO.read(file);
             BufferedImage image2 = ImageIO.read(file2);
