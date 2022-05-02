@@ -28,8 +28,8 @@ public class Gaufre {
 		changePoison(0,0);
 	}
 	
-	public boolean verif(int i, int j) {//vérifie si une case d'indice i, j est bien située dans le tableau et pas hors du tableau.
-		if(i<=hauteur && j<=largeur && i>=0 && j>=0){
+	public boolean verif(int i, int j) {//verifie si une case d'indice i, j est bien situee dans le tableau et pas hors du tableau.
+		if(i<largeur && j<hauteur && i>=0 && j>=0){
 			return true;
 		}
 		return false;
@@ -229,8 +229,8 @@ public class Gaufre {
 	}
 	
 	public void afficher() {//affiche la gaufre dans la console.
-		for(int l=0 ; l<largeur ; l++) {//lignes
-			for(int h=0 ; h<hauteur ; h++) {//colonnes
+		for(int h=0 ; h<hauteur ; h++) {//lignes
+			for(int l=0 ; l<largeur ; l++) {//colonnes
 				int v=tableau[l][h];
 				System.out.print("|"+v);
 			}
