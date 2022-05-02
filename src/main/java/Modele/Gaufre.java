@@ -8,12 +8,12 @@ public class Gaufre {
 	public int[][] tableau;
 	public int largeur;
 	public int hauteur;
-	static Position poison;
-	public final int POISON=2;
-	public final int VIDE=1;
-	public final int CROQUE=0;
+	public static Position poison;
+	final int POISON=2;
+	final int VIDE=1;
+	final int CROQUE=0;
 	int nbCasesCroquees;
-	LinkedList<Coup> historique = new LinkedList<Coup>();
+	public LinkedList<Coup> historique = new LinkedList<Coup>();
 	
 	public Gaufre(int i, int j){
 		tableau = new int[i][j];
@@ -28,14 +28,14 @@ public class Gaufre {
 		changePoison(0,0);
 	}
 	
-	public boolean verif(int i, int j) {//vï¿½rifie si une case d'indice i, j est bien situï¿½e dans le tableau et pas hors du tableau.
+	public boolean verif(int i, int j) {//vérifie si une case d'indice i, j est bien située dans le tableau et pas hors du tableau.
 		if(i<=hauteur && j<=largeur && i>=0 && j>=0){
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean verifNonCroque(int i, int j) {//renvoie true si la case d'indice i,j n'a pas ï¿½tï¿½ croquï¿½e.
+	public boolean verifNonCroque(int i, int j) {//renvoie true si la case d'indice i,j n'a pas été croquée.
 		if(tableau[i][j]==CROQUE){
 			return false;
 		}
@@ -52,7 +52,7 @@ public class Gaufre {
 		tableau[poison.x][poison.y]=POISON;
 	}
 	
-	public boolean estMangePoison() {//renvoie true si le poison a ï¿½tï¿½ mangï¿½.
+	public boolean estMangePoison() {//renvoie true si le poison a été mangé.
 		int i=poison.x;
 		int j=poison.y;
 		if(tableau[i][j]==CROQUE) {
@@ -91,14 +91,14 @@ public class Gaufre {
 		int [][] tab = new int[newL][newH];
 		for(int i=0 ; i<newL ; i++) {//largeur
 			for(int j=0 ; j<newH ; j++) {//hauteur
-				if(i>oldLargeur-1 || j > oldHauteur-1) {//si on ne peut pas boucler dans l'ancien tableau, alors on crï¿½er des nouvelles cellules ayant pour valeur 1
+				if(i>oldLargeur-1 || j > oldHauteur-1) {//si on ne peut pas boucler dans l'ancien tableau, alors on créer des nouvelles cellules ayant pour valeur 1
 					tab[i][j]=VIDE;
 				}else {//sinon, on copie les valeurs de l'ancien tableau dans le nouveau tableau
 					tab[i][j]=tableau[i][j];
 				}
 			}
 		}
-		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi crï¿½er enn faisant une copie du tableau
+		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi créer enn faisant une copie du tableau
 	}
 	
 	public void retrecir(int newL, int newH) {
@@ -108,14 +108,14 @@ public class Gaufre {
 				tab[l][h]=tableau[l][h];
 			}
 		}
-		if(poison.x>newL || poison.y>newH) {//le poison est rï¿½initialisï¿½ par dï¿½faut ï¿½ la case (0,0) si la nouvelle dimension supprime la cellule empoisonnï¿½e.
+		if(poison.x>newL || poison.y>newH) {//le poison est réinitialisé par défaut à la case (0,0) si la nouvelle dimension supprime la cellule empoisonnée.
 			changePoison(0,0);
-			System.out.println("Le poison est maintenant en (0,0) car le rï¿½trï¿½cissement de la gaufre a supprimï¿½ l'ancienne position du poison.");
+			System.out.println("Le poison est maintenant en (0,0) car le rétrécissement de la gaufre a supprimé l'ancienne position du poison.");
 		}
-		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi crï¿½er en faisant une copie du tableau
+		tableau=Arrays.copyOf(tab, newL);//on attribue la valeur de tableau au nouveau tableau ainsi créer en faisant une copie du tableau
 	}
 	
-	public void croquer(int i, int j) {// ï¿½ partir d'une case, dï¿½finit la valeur de toutes les cases ï¿½ droite et en bas de cette case ï¿½ CROQUE.
+	public void croquer(int i, int j) {// à partir d'une case, définit la valeur de toutes les cases à droite et en bas de cette case à CROQUE.
 		if(verif(i,j) && verifNonCroque(i,j)) {
 			for(int l=i ; l<largeur ; l++) {//largeur
 				for(int h=j ; h<hauteur ; h++) {//hauteur
@@ -124,7 +124,7 @@ public class Gaufre {
 						tableau[l][h]=CROQUE;
 					}
 					if(poison.x==l && poison.y==h) {
-						System.out.println("Le poison a ï¿½tï¿½ mangï¿½ !");
+						System.out.println("Le poison a été mangé !");
 					}
 				}
 			}
@@ -133,7 +133,7 @@ public class Gaufre {
 		}
 	}
 	
-	public void remplir(int i, int j) {// ï¿½ partir d'une case, remplit toutes les cases ï¿½ droite et en bas de cette case ï¿½ VIDE.
+	public void remplir(int i, int j) {// à partir d'une case, remplit toutes les cases à droite et en bas de cette case à VIDE.
 		for(int l=i ; l<largeur ; l++) {//largeur
 			for(int h=j ; h<hauteur ; h++) {//hauteur
 				if(tableau[l][h]!=VIDE) {
@@ -158,7 +158,7 @@ public class Gaufre {
         historique.removeLast(); //supprime le dernier coup dans l'historique
     }
 	
-	public void reinitialiser() {//rï¿½initialise les valeurs des cases de la gaufre.
+	public void reinitialiser() {//réinitialise les valeurs des cases de la gaufre.
 		nbCasesCroquees=0;
 		for(int l=0 ; l<largeur ; l++) {//largeur
 			for(int h=0 ; h<hauteur ; h++) {//hauteur
