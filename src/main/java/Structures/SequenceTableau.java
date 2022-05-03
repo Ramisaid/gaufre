@@ -104,4 +104,8 @@ public class SequenceTableau<E> implements Sequence<E> {
 	public Iterateur<E> iterateur() {
 		return new IterateurSequenceTableau<>(this);
 	}
+
+	public int length() {
+		return taille;
+	}
 }

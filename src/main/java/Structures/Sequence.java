@@ -10,4 +10,6 @@ public interface Sequence<E> {
 	boolean estVide();
 
 	Iterateur<E> iterateur();
+
+	int length();
 }

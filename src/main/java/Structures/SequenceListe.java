@@ -29,6 +29,7 @@ package Structures;
 
 public class SequenceListe<E> implements Sequence<E> {
 	Maillon<E> tete, queue;
+	int taille = 0;
 
 	// Les méthodes implémentant l'interface
 	// doivent être publiques
@@ -41,6 +42,7 @@ public class SequenceListe<E> implements Sequence<E> {
 			queue.suivant = m;
 			queue = m;
 		}
+		taille++;
 	}
 
 	@Override
@@ -51,6 +53,7 @@ public class SequenceListe<E> implements Sequence<E> {
 		} else {
 			tete = m;
 		}
+		taille++;
 	}
 
 	@Override
@@ -62,6 +65,7 @@ public class SequenceListe<E> implements Sequence<E> {
 		if (tete == null) {
 			queue = null;
 		}
+		taille--;
 		return resultat;
 	}
 
@@ -89,5 +93,9 @@ public class SequenceListe<E> implements Sequence<E> {
 	@Override
 	public Iterateur<E> iterateur() {
 		return new IterateurSequenceListe<>(this);
+	}
+
+	public int length() {
+		return taille;
 	}
 }
